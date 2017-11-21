@@ -70,11 +70,11 @@
 
 - (BOOL) isSystemUrl:(NSURL*)url
 {
-	if ([[url host] isEqualToString:@"itunes.apple.com"]) {
-		return YES;
-	}
+    if ([[url host] isEqualToString:@"itunes.apple.com"]) {
+        return YES;
+    }
 
-	return NO;
+    return NO;
 }
 
 - (void)open:(CDVInvokedUrlCommand*)command
@@ -641,8 +641,13 @@
     self.backButton = [[UIBarButtonItem alloc] initWithTitle:backArrowString style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
     self.backButton.enabled = YES;
     self.backButton.imageInsets = UIEdgeInsetsZero;
+    
+    NSString* refreshArrowString = NSLocalizedString(@"⟳", nil); //refresh arrow from Unicode char
+    self.refreshButton = [[UIBarButtonItem alloc] initWithTitle:refreshArrowString style:UIBarButtonItemStylePlain target:self action:@selector(reload:)];
+    self.refreshButton.enabled = YES;
+    self.refreshButton.imageInsets = UIEdgeInsetsZero;
 
-    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.refreshButton, fixedSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
 
     self.view.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.toolbar];
@@ -847,6 +852,11 @@
 - (void)goForward:(id)sender
 {
     [self.webView goForward];
+}
+
+- (void)reload:(id)sender
+{
+    [self.webView reload];
 }
 
 - (void)viewWillAppear:(BOOL)animated
